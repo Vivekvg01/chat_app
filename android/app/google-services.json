@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "829829584345",
+    "project_id": "chat-app-9f913",
+    "storage_bucket": "chat-app-9f913.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:829829584345:android:310a58a2b9b99922b5b5c8",
+        "android_client_info": {
+          "package_name": "com.vivekvg.chat_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "829829584345-i2dhq7nmo5iqbvr53neei756rl0nqrk3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHwr9Oaiw9gPQJie8sw5zH3fdxCd3o57Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "829829584345-i2dhq7nmo5iqbvr53neei756rl0nqrk3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
