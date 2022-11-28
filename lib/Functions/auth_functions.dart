@@ -3,10 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-//Sign
+//Sign and storedata
 Future<User?> createAccount(String name, String email, String password) async {
   FirebaseAuth _auth = FirebaseAuth.instance;
-  
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   try {
@@ -46,7 +45,7 @@ Future<User?> login(String email, String password) async {
     if (user != null) {
       return user;
     } else {
-      print('Login failed');
+      print('LOGIN FAILED');
       return user!;
     }
   } catch (e) {

@@ -35,6 +35,7 @@ class _SplashScreenState extends State<SplashScreen> {
       const Duration(seconds: 3),
     );
     if (_auth.currentUser != null) {
+      //if (!mounted) {}
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -51,4 +52,3 @@ class _SplashScreenState extends State<SplashScreen> {
     }
   }
 }
-

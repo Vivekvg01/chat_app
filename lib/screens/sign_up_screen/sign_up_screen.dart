@@ -1,15 +1,20 @@
 import 'package:chat_app/Functions/auth_functions.dart';
+import 'package:chat_app/const_values/const_values.dart';
+import 'package:chat_app/refactored_widgets/auh_button.dart';
+import 'package:chat_app/refactored_widgets/auth_text_feild.dart';
+import 'package:chat_app/screens/home_screen/home_screen.dart';
 import 'package:flutter/material.dart';
 
 class SignupScreen extends StatefulWidget {
-  SignupScreen({Key? key}) : super(key: key);
+  const SignupScreen({Key? key}) : super(key: key);
 
   @override
   State<SignupScreen> createState() => _SignupScreenState();
 }
 
 class _SignupScreenState extends State<SignupScreen> {
-  
+  final _formKey = GlobalKey<FormState>();
+
   final TextEditingController _name = TextEditingController();
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
@@ -26,63 +31,80 @@ class _SignupScreenState extends State<SignupScreen> {
               )
             : Padding(
                 padding: const EdgeInsets.all(15),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    TextFormField(
-                      controller: _name,
-                      decoration: const InputDecoration(
-                        hintText: 'Name',
-                        border: OutlineInputBorder(),
-                      ),
+                child: SingleChildScrollView(
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        sizedBoxHeight(50),
+                        Image.asset(
+                          'assets/chat_app.png',
+                          height: 150,
+                          width: 150,
+                        ),
+                        sizedBoxHeight(20),
+                        AuthTextFeild(
+                          icon: Icons.person,
+                          controller: _name,
+                          hintText: 'Name',
+                          validator: _name.text,
+                          validateText: 'please enter a valid name',
+                        ),
+                        sizedBoxHeight(15),
+                        AuthTextFeild(
+                          icon: Icons.mail,
+                          controller: _email,
+                          hintText: 'Email',
+                          validator: _email.text,
+                          validateText: 'please enter a valid email',
+                        ),
+                        sizedBoxHeight(15),
+                        AuthTextFeild(
+                          icon: Icons.lock,
+                          controller: _password,
+                          hintText: 'Password',
+                          validator: _password.text,
+                          validateText: 'wrong password',
+                          obscureText: true,
+                        ),
+                        sizedBoxHeight(15),
+                        AuthButton(
+                            buttonLabel: 'Sign Up',
+                            onButtonClicked: () {
+                              if (_formKey.currentState!.validate()) {
+                                setState(() {
+                                  isLoading = true;
+                                });
+                                createAccount(
+                                  _name.text,
+                                  _email.text,
+                                  _password.text,
+                                ).then((user) {
+                                  if (user != null) {
+                                    setState(() {
+                                      isLoading = false;
+                                    });
+                                    print('Account created successfully');
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) => HomeScreen()));
+                                  } else {
+                                    print('Login failed');
+                                  }
+                                });
+                              }
+                            }),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text('Login '),
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 15),
-                    TextFormField(
-                      controller: _email,
-                      decoration: const InputDecoration(
-                        hintText: 'Email',
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                    const SizedBox(height: 15),
-                    TextFormField(
-                      controller: _password,
-                      decoration: const InputDecoration(
-                        hintText: 'Password',
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                    const SizedBox(height: 15),
-                    ElevatedButton(
-                      onPressed: () {
-                        if (_name.text.isNotEmpty &&
-                            _password.text.isNotEmpty &&
-                            _email.text.isNotEmpty) {
-                          setState(() {
-                            isLoading = true;
-                          });
-                          createAccount(_name.text, _email.text, _password.text)
-                              .then((user) {
-                            if (user != null) {
-                              setState(() {
-                                isLoading = false;
-                              });
-                              print('Account created successfully');
-                            } else {
-                              print('Login failed');
-                            }
-                          });
-                        }
-                      },
-                      child: const Text('Sign up'),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text('Login '),
-                    ),
-                  ],
+                  ),
                 ),
               ),
       ),
