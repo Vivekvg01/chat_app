@@ -1,10 +1,43 @@
-import 'package:chat_app/Functions/auth_functions.dart';
+import 'package:chat_app/Functions/firebase_functions.dart';
 import 'package:chat_app/const_values/const_values.dart';
-import 'package:chat_app/screens/home_screen/chat_tile.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  Map<String, dynamic>? userMap;
+
+  bool isLoading = false;
+
+  final TextEditingController _search = TextEditingController();
+
+  void onSearch() async {
+    FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+    setState(() {
+      isLoading = true;
+    });
+
+    await _firestore
+        .collection('users')
+        .where(
+          'email',
+          isEqualTo: _search.text,
+        )
+        .get()
+        .then((value) {
+      setState(() {
+        userMap = value.docs[0].data();
+        isLoading = false;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,33 +76,53 @@ class HomeScreen extends StatelessWidget {
           sizedBoxWidth(10),
         ],
       ),
-      body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.all(20),
-          children: [
-            //search textfeild
-            TextField(
-              decoration: InputDecoration(
-                hintText: "Search",
-                prefixIcon: const Icon(
-                  Icons.search,
-                  color: Colors.grey,
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(25),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(25),
-                  borderSide: BorderSide(width: 3, color: Colors.grey.shade300),
-                ),
+      body: isLoading
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : SafeArea(
+              child: ListView(
+                padding: const EdgeInsets.all(20),
+                children: [
+                  //search textfeild
+                  SizedBox(
+                    height: 45,
+                    child: TextField(
+                      controller: _search,
+                      decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.symmetric(),
+                        hintText: "Search",
+                        prefixIcon: const Icon(
+                          Icons.search,
+                          color: Colors.grey,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25),
+                          borderSide:
+                              BorderSide(width: 3, color: Colors.grey.shade300),
+                        ),
+                      ),
+                    ),
+                  ),
+                  sizedBoxHeight(10),
+                  ElevatedButton(
+                    onPressed: onSearch,
+                    child: const Text('search'),
+                  ),
+                  //const ChatTileWidget(),
+                  userMap != null
+                      ? ListTile(
+                          leading: const CircleAvatar(),
+                          title: Text(userMap!['name']),
+                          subtitle: Text(userMap!['email']),
+                        )
+                      : const SizedBox(),
+                ],
               ),
             ),
-            sizedBoxHeight(10),
-            //chattile widgets
-            const ChatTileWidget(),
-          ],
-        ),
-      ),
     );
   }
 }
