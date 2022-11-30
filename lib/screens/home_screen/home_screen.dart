@@ -1,6 +1,8 @@
 import 'package:chat_app/Functions/firebase_functions.dart';
+import 'package:chat_app/chat_room_screen/chat_room.dart';
 import 'package:chat_app/const_values/const_values.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -16,6 +18,17 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isLoading = false;
 
   final TextEditingController _search = TextEditingController();
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  String chatRoomId(String user1, String user2) {
+    if (user1[0].toLowerCase().codeUnits[0] >=
+        user2[0].toLowerCase().codeUnits[0]) {
+      return "${user1[0].toLowerCase().codeUnits[0]}${user2[0].toLowerCase().codeUnits[0]}";
+    } else {
+      return "${user2[0].toLowerCase().codeUnits[0]}${user1[0].toLowerCase().codeUnits[0]}";
+    }
+  }
 
   void onSearch() async {
     FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -112,14 +125,33 @@ class _HomeScreenState extends State<HomeScreen> {
                     onPressed: onSearch,
                     child: const Text('search'),
                   ),
-                  //const ChatTileWidget(),
                   userMap != null
                       ? ListTile(
-                          leading: const CircleAvatar(),
+                          onTap: () {
+                            String roomId = chatRoomId(
+                              _auth.currentUser!.displayName!,
+                              userMap!['name'],
+                            );
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => ChatRoom(
+                                  chatRoomId: roomId,
+                                  userMap: userMap!,
+                                ),
+                              ),
+                            );
+                          },
+                          leading: CircleAvatar(
+                            radius: 26,
+                            child: Image.network(
+                              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwHTZ8zi4vN4YAWw0jCcNGgfMsIN2zEPSF0vUhphE26QFXDHi3kKozZSMISp6hEKwPwvM&usqp=CAU',
+                              fit: BoxFit.cover,
+                            ),
+                          ),
                           title: Text(userMap!['name']),
                           subtitle: Text(userMap!['email']),
                         )
-                      : const SizedBox(),
+                      : Container(),
                 ],
               ),
             ),
