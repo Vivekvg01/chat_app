@@ -20,6 +20,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
   bool isLoading = false;
 
+  bool _passwordVisible = true;
+
+  @override
+  void initState() {
+    _passwordVisible = false;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -51,15 +59,55 @@ class _LoginScreenState extends State<LoginScreen> {
                             validateText: 'Please enter a valid email',
                           ),
                           sizedBoxHeight(15),
-                          AuthTextFeild(
-                            icon: Icons.lock,
-                            controller: _password,
-                            hintText: 'Password',
-                            validator: _password.text,
-                            validateText: 'Wrong password',
-                            obscureText: true,
+                          Container(
+                            height: 60,
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade400,
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                            child: Row(
+                              children: [
+                                sizedBoxWidth(15),
+                                Container(
+                                  height: 40,
+                                  width: 40,
+                                  decoration: BoxDecoration(
+                                    color: Colors.purple,
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: const Icon(
+                                    Icons.lock,
+                                    color: Colors.white,
+                                    size: 23,
+                                  ),
+                                ),
+                                sizedBoxWidth(10),
+                                Expanded(
+                                  child: TextFormField(
+                                    obscureText: _passwordVisible,
+                                    controller: _password,
+                                    decoration: InputDecoration(
+                                      hintText: 'Password',
+                                      border: InputBorder.none,
+                                      suffixIcon: IconButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            _passwordVisible =
+                                                !_passwordVisible;
+                                          });
+                                        },
+                                        icon: _passwordVisible
+                                            ? const Icon(Icons.visibility)
+                                            : const Icon(Icons.visibility_off),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                           sizedBoxHeight(20),
+                          //Login button
                           AuthButton(
                             buttonLabel: 'Login',
                             onButtonClicked: () {
@@ -91,19 +139,22 @@ class _LoginScreenState extends State<LoginScreen> {
                               }
                             },
                           ),
-                          // ElevatedButton(
-                          //   onPressed: () {},
-                          //   child: const Text('Login'),
-                          // ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => SignupScreen(),
-                                ),
-                              );
-                            },
-                            child: const Text('Create Account'),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text("Don't have an account?"),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const SignupScreen(),
+                                    ),
+                                  );
+                                },
+                                child: const Text('Sign up'),
+                              ),
+                            ],
                           ),
                         ],
                       ),

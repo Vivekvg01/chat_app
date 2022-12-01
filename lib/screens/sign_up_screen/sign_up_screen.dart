@@ -21,6 +21,14 @@ class _SignupScreenState extends State<SignupScreen> {
 
   bool isLoading = false;
 
+  bool _passwordVisible = true;
+
+  @override
+  void initState() {
+    _passwordVisible = false;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -44,6 +52,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           width: 150,
                         ),
                         sizedBoxHeight(20),
+                        //namefeild
                         AuthTextFeild(
                           icon: Icons.person,
                           controller: _name,
@@ -52,6 +61,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           validateText: 'please enter a valid name',
                         ),
                         sizedBoxHeight(15),
+                        //emailfeild
                         AuthTextFeild(
                           icon: Icons.mail,
                           controller: _email,
@@ -60,43 +70,84 @@ class _SignupScreenState extends State<SignupScreen> {
                           validateText: 'please enter a valid email',
                         ),
                         sizedBoxHeight(15),
-                        TextFormField(
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            suffixIcon: IconButton(
-                              onPressed: () {},
-                              icon: Icon(Icons.visibility_off),
-                            ),
+                        //password feild
+                        Container(
+                          height: 60,
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade400,
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          child: Row(
+                            children: [
+                              sizedBoxWidth(15),
+                              Container(
+                                height: 40,
+                                width: 40,
+                                decoration: BoxDecoration(
+                                  color: Colors.purple,
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: const Icon(
+                                  Icons.lock,
+                                  color: Colors.white,
+                                  size: 23,
+                                ),
+                              ),
+                              sizedBoxWidth(10),
+                              Expanded(
+                                child: TextFormField(
+                                  obscureText: _passwordVisible,
+                                  controller: _password,
+                                  decoration: InputDecoration(
+                                    hintText: 'Password',
+                                    border: InputBorder.none,
+                                    suffixIcon: IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          _passwordVisible = !_passwordVisible;
+                                        });
+                                      },
+                                      icon: _passwordVisible
+                                          ? const Icon(Icons.visibility)
+                                          : const Icon(Icons.visibility_off),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
                           ),
                         ),
                         sizedBoxHeight(20),
                         AuthButton(
-                            buttonLabel: 'Sign Up',
-                            onButtonClicked: () {
-                              if (_formKey.currentState!.validate()) {
-                                setState(() {
-                                  isLoading = true;
-                                });
-                                createAccount(
-                                  _name.text,
-                                  _email.text,
-                                  _password.text,
-                                ).then((user) {
-                                  if (user != null) {
-                                    setState(() {
-                                      isLoading = false;
-                                    });
-                                    print('Account created successfully');
-                                    Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (_) => HomeScreen()));
-                                  } else {
-                                    print('Login failed');
-                                  }
-                                });
-                              }
-                            }),
+                          buttonLabel: 'Sign Up',
+                          onButtonClicked: () {
+                            if (_formKey.currentState!.validate()) {
+                              setState(() {
+                                isLoading = true;
+                              });
+                              createAccount(
+                                _name.text,
+                                _email.text,
+                                _password.text,
+                              ).then((user) {
+                                if (user != null) {
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                  print('Account created successfully');
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => const HomeScreen(),
+                                    ),
+                                  );
+                                } else {
+                                  print('Login failed');
+                                }
+                              });
+                            }
+                          },
+                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
