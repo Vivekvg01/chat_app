@@ -21,11 +21,11 @@ class _SignupScreenState extends State<SignupScreen> {
 
   bool isLoading = false;
 
-  bool _passwordVisible = true;
+  late bool _passwordVisible;
 
   @override
   void initState() {
-    _passwordVisible = false;
+    _passwordVisible = true;
     super.initState();
   }
 
@@ -108,8 +108,16 @@ class _SignupScreenState extends State<SignupScreen> {
                                         });
                                       },
                                       icon: _passwordVisible
-                                          ? const Icon(Icons.visibility)
-                                          : const Icon(Icons.visibility_off),
+                                          ? const Icon(
+                                              Icons.visibility_off,
+                                              color: Color.fromARGB(
+                                                  185, 26, 26, 26),
+                                            )
+                                          : const Icon(
+                                              Icons.visibility,
+                                              color: Color.fromARGB(
+                                                  185, 26, 26, 26),
+                                            ),
                                     ),
                                   ),
                                 ),
@@ -117,7 +125,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             ],
                           ),
                         ),
-                        sizedBoxHeight(20),
+                        sizedBoxHeight(30),
                         AuthButton(
                           buttonLabel: 'Sign Up',
                           onButtonClicked: () {

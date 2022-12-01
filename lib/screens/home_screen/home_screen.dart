@@ -77,12 +77,34 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     }
   }
 
+  //Logout Popup
+  Widget _buildPopupDialog(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Are you sure wanted to logout?'),
+      actions: [
+        //yes
+        ElevatedButton(
+          onPressed: () => logOut(context),
+          child: const Text('Yes'),
+        ),
+        //No
+        ElevatedButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: const Text('No'),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
+        leadingWidth: 0.0,
         title: const Text(
           'Chats',
           style: TextStyle(
@@ -93,22 +115,15 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         ),
         actions: [
           IconButton(
-            onPressed: () => logOut(context),
+            onPressed: () => showDialog(
+                context: context,
+                builder: (builder) {
+                  return _buildPopupDialog(context);
+                }),
             icon: const Icon(
               Icons.logout,
               color: Colors.grey,
               size: 24,
-            ),
-          ),
-          CircleAvatar(
-            backgroundColor: Colors.grey.shade300,
-            child: IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.person,
-                color: Colors.grey,
-                size: 22,
-              ),
             ),
           ),
           sizedBoxWidth(10),
@@ -184,7 +199,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         onPressed: (() {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (_) => const GroupChatScreen(),
+              builder: (_) => const GroupChatHomeScreen(),
             ),
           );
         }),

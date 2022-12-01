@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:chat_app/const_values/const_values.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -30,7 +31,7 @@ class ChatRoom extends StatelessWidget {
   }
 
   Future uploadImage() async {
-    String fileName = Uuid().v1();
+    String fileName = const Uuid().v1();
     int status = 1;
 
     await _firestore
@@ -99,6 +100,7 @@ class ChatRoom extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         title: StreamBuilder<DocumentSnapshot>(
           stream:
               _firestore.collection("users").doc(userMap['uid']).snapshots(),
@@ -125,7 +127,8 @@ class ChatRoom extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
+            sizedBoxHeight(5), 
+            SizedBox(
               height: size.height / 1.25,
               width: size.width,
               child: StreamBuilder<QuerySnapshot>(
@@ -170,7 +173,7 @@ class ChatRoom extends StatelessWidget {
                         decoration: InputDecoration(
                             suffixIcon: IconButton(
                               onPressed: () => getImage(),
-                              icon: Icon(Icons.photo),
+                              icon: const Icon(Icons.photo),
                             ),
                             hintText: "Send Message",
                             border: OutlineInputBorder(

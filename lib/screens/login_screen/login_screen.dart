@@ -20,11 +20,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
   bool isLoading = false;
 
-  bool _passwordVisible = true;
+  late bool _passwordVisible;
 
   @override
   void initState() {
-    _passwordVisible = false;
+    _passwordVisible = true;
     super.initState();
   }
 
@@ -97,8 +97,16 @@ class _LoginScreenState extends State<LoginScreen> {
                                           });
                                         },
                                         icon: _passwordVisible
-                                            ? const Icon(Icons.visibility)
-                                            : const Icon(Icons.visibility_off),
+                                            ? const Icon(
+                                                Icons.visibility_off,
+                                                color: Color.fromARGB(
+                                                    185, 26, 26, 26),
+                                              )
+                                            : const Icon(
+                                                Icons.visibility,
+                                                color: Color.fromARGB(
+                                                    185, 26, 26, 26),
+                                              ),
                                       ),
                                     ),
                                   ),
@@ -106,7 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ],
                             ),
                           ),
-                          sizedBoxHeight(20),
+                          sizedBoxHeight(30),
                           //Login button
                           AuthButton(
                             buttonLabel: 'Login',
