@@ -32,7 +32,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> checkIsLoggedIn() async {
     await Future.delayed(
-      const Duration(seconds: 3),
+      const Duration(seconds: 2),
     );
     if (_auth.currentUser != null) {
       //if (!mounted) {}

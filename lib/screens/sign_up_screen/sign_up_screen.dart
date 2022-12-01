@@ -60,15 +60,16 @@ class _SignupScreenState extends State<SignupScreen> {
                           validateText: 'please enter a valid email',
                         ),
                         sizedBoxHeight(15),
-                        AuthTextFeild(
-                          icon: Icons.lock,
-                          controller: _password,
-                          hintText: 'Password',
-                          validator: _password.text,
-                          validateText: 'wrong password',
-                          obscureText: true,
+                        TextFormField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            suffixIcon: IconButton(
+                              onPressed: () {},
+                              icon: Icon(Icons.visibility_off),
+                            ),
+                          ),
                         ),
-                        sizedBoxHeight(15),
+                        sizedBoxHeight(20),
                         AuthButton(
                             buttonLabel: 'Sign Up',
                             onButtonClicked: () {
@@ -96,11 +97,17 @@ class _SignupScreenState extends State<SignupScreen> {
                                 });
                               }
                             }),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: const Text('Login '),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text('Alerady have an accout?'),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text('Login '),
+                            ),
+                          ],
                         ),
                       ],
                     ),

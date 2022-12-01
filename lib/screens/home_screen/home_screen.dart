@@ -1,5 +1,6 @@
 import 'package:chat_app/Functions/firebase_functions.dart';
-import 'package:chat_app/chat_room_screen/chat_room.dart';
+import 'package:chat_app/screens/group_chat_screen/group_chat_screen.dart';
+import 'package:chat_app/screens/home_screen/chat_room.dart';
 import 'package:chat_app/const_values/const_values.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,7 +13,7 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   Map<String, dynamic>? userMap;
 
   bool isLoading = false;
@@ -20,6 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _search = TextEditingController();
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   String chatRoomId(String user1, String user2) {
     if (user1[0].toLowerCase().codeUnits[0] >=
@@ -50,6 +52,29 @@ class _HomeScreenState extends State<HomeScreen> {
         isLoading = false;
       });
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  void setStatus(String status) async {
+    await _firestore.collection('users').doc(_auth.currentUser!.uid).update({
+      "status": status,
+    });
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      //online
+      setStatus("online");
+    } else {
+      //offile
+      setStatus("offline");
+    }
   }
 
   @override
@@ -155,6 +180,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: (() {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (_) => const GroupChatScreen(),
+            ),
+          );
+        }),
+        child: const Icon(Icons.groups),
+      ),
     );
   }
 }
