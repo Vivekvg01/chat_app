@@ -1,16 +1,65 @@
-# chat_app
+ # Chat New
+ 
+  Chat new is a chat application build by using
+  flutter and firebase.
+  
 
-A new Flutter project.
+## Table of contenst
 
-## Getting Started
+- [Installation](#installation)
+- [Usage](#usage)
+- [Screenshots](#screenshots)
+- [Packages and Credits](#packages-and-credits)
+- [Google Play Store](#google-play-store)
+- [License](#license)
 
-This project is a starting point for a Flutter application.
+## Installation
 
-A few resources to get you started if this is your first Flutter project:
+To install and run this project, you will need to have the following dependencies installed on
+your machine:
+ - Flutter SDK
+ - Android Studio or Visual Studio Code
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+To install the project, follow these steps:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1. Clone the repository to your local machine
+2. Open the project in Android Studio or Visual Studio Code
+3. Connect an Android device or lauch an emulator
+4. Run the command 'flutter pub get' using the terminal
+5. Run the project by clicking the "run" button in the top menu or by using the terminal
+   command 'flutter run'
+
+
+## Usage 
+
+User can do  the following:
+
+- Create Account using email Id.
+- Can find people by email Id.
+- Can chat with other users.
+
+## Screenshots 
+
+Login Screen            |   Home Screen            |  Chat Room 
+:-------------------------:|:-------------------------:|:-------------------------:|
+![](assets/screenshots/login.png)|![](assets/screenshots/home.png)|![](assets/screenshots/chat.png)|
+
+
+
+## Packages and Credits
+
+- [Firebase auth](https://github.com/firebase/flutterfire/tree/master/packages/firebase_auth/firebase_auth)
+- [Firebase core](https://github.com/firebase/flutterfire/tree/master/packages/firebase_core/firebase_core)
+- [Firebase auth](https://github.com/firebase/flutterfire/tree/master/packages/firebase_auth/firebase_auth)
+- [Firebase Storage](https://pub.dev/packages/firebase_storage)
+- [Image Picker](https://pub.dev/packages/image_picker)
+- [Uuid](https://github.com/Daegalus/dart-uuid)
+
+
+
+
+## License
+
+[![License](https://img.shields.io/:License-MIT-blue.svg?style=flat-square)](http://badges.mit-license.org)
+- MIT License
+- Copyright 2022 © [Vivek V.G](https://github.com/Vivekvg01)

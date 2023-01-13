@@ -68,7 +68,7 @@ class _GroupChatHomeScreenState extends State<GroupChatHomeScreen> {
                       ),
                     ),
                   ),
-                  leading: Icon(Icons.group),
+                  leading: const Icon(Icons.group),
                   title: Text(groupList[index]['name']),
                 );
               },
@@ -76,11 +76,11 @@ class _GroupChatHomeScreenState extends State<GroupChatHomeScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (_) => AddMembersInGroup(),
+            builder: (_) => const AddMembersInGroup(),
           ),
         ),
         tooltip: "Create Group",
-        child: Icon(Icons.create),
+        child: const Icon(Icons.create),
       ),
     );
   }

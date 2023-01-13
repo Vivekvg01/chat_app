@@ -191,11 +191,39 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                           title: Text(userMap!['name']),
                           subtitle: Text(userMap!['email']),
                         )
-                      : Container(),
+                      : const SizedBox(),
+                  // StreamBuilder(
+                  //   stream: _firestore
+                  //       .collection('users')
+                  //       .doc()
+                  //       .collection('message')
+                  //       .snapshots(),
+                  //   builder: (context, AsyncSnapshot snapshot) {
+                  //    if (snapshot.hasData) {
+                  //       if (snapshot.data.docs.length < 1) {
+                  //         return const Center(
+                  //           child: Text("No Chats found"),
+                  //         );
+                  //       }
+                  //         return ListView.builder(
+                  //           itemCount: snapshot.data.docs.length,
+                  //           itemBuilder: ((context, index) {
+                  //             var userId = snapshot.data.docs[index];
+                  //             return ListTile(
+                  //               title: Text(userMap!['name']),
+                  //               subtitle: Text(userMap!['email']),
+                  //             );
+                  //           }),
+                  //         );
+                  //       }
+                  //     }
+                
+                  // )
                 ],
               ),
             ),
       floatingActionButton: FloatingActionButton(
+        elevation: 0,
         onPressed: (() {
           Navigator.of(context).push(
             MaterialPageRoute(

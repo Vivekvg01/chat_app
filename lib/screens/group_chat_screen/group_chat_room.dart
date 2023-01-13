@@ -3,6 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../../const_values/const_values.dart';
+
 class GroupChatRoom extends StatelessWidget {
   final String groupChatId, groupName;
 
@@ -54,10 +56,10 @@ class GroupChatRoom extends StatelessWidget {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
+      body: Column(
+        children: [
+          Expanded(
+            child: SizedBox(
               height: size.height / 1.27,
               width: size.width,
               child: StreamBuilder<QuerySnapshot>(
@@ -85,40 +87,93 @@ class GroupChatRoom extends StatelessWidget {
                 },
               ),
             ),
-            Container(
-              height: size.height / 10,
-              width: size.width,
-              alignment: Alignment.center,
-              child: Container(
-                height: size.height / 12,
-                width: size.width / 1.1,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      height: size.height / 17,
-                      width: size.width / 1.3,
+          ),
+          // Container(
+          //   height: size.height / 10,
+          //   width: size.width,
+          //   alignment: Alignment.center,
+          //   child: SizedBox(
+          //     height: size.height / 12,
+          //     width: size.width / 1.1,
+          //     child: Row(
+          //       mainAxisAlignment: MainAxisAlignment.center,
+          //       children: [
+          //         SizedBox(
+          //           height: size.height / 17,
+          //           width: size.width / 1.3,
+          //           child: TextField(
+          //             controller: _message,
+          //             decoration: InputDecoration(
+          //               suffixIcon: IconButton(
+          //                 onPressed: () {},
+          //                 icon: const Icon(Icons.photo),
+          //               ),
+          //               hintText: "Send Message",
+          //               border: OutlineInputBorder(
+          //                 borderRadius: BorderRadius.circular(8),
+          //               ),
+          //             ),
+          //           ),
+          //         ),
+          //         IconButton(
+          //           icon: const Icon(Icons.send),
+          //           onPressed: onSendMessage,
+          //         ),
+          //       ],
+          //     ),
+          //   ),
+          // ),
+
+          //send message
+          Container(
+            height: size.height / 10,
+            width: size.width,
+            alignment: Alignment.center,
+            child: SizedBox(
+              height: size.height / 12,
+              width: size.width / 1.1,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    height: size.height / 15,
+                    width: size.width / 1.4,
+                    decoration: BoxDecoration(
+                      color: Colors.grey,
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
                       child: TextField(
                         controller: _message,
                         decoration: InputDecoration(
-                            suffixIcon: IconButton(
-                              onPressed: () {},
-                              icon: Icon(Icons.photo),
+                          border: InputBorder.none,
+                          suffixIcon: IconButton(
+                            onPressed: () {},
+                            icon: const Icon(
+                              Icons.photo,
+                              color: Colors.grey,
                             ),
-                            hintText: "Send Message",
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            )),
+                          ),
+                          hintText: "Type your message",
+                        ),
                       ),
                     ),
-                    IconButton(
-                        icon: const Icon(Icons.send), onPressed: onSendMessage),
-                  ],
-                ),
+                  ),
+                  sizedBoxWidth(7),
+                  SizedBox(
+                    height: 50,
+                    child: FloatingActionButton(
+                      elevation: 0,
+                      onPressed: onSendMessage,
+                      child: const Icon(Icons.send),
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -132,35 +187,36 @@ class GroupChatRoom extends StatelessWidget {
               ? Alignment.centerRight
               : Alignment.centerLeft,
           child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 14),
-              margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 8),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: Colors.pink,
-              ),
-              child: Column(
-                children: [
-                  Text(
-                    chatMap['sendBy'],
-                    style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white,
-                    ),
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 14),
+            margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 8),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              color: Colors.pink,
+            ),
+            child: Column(
+              children: [
+                Text(
+                  chatMap['sendBy'],
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white,
                   ),
-                  SizedBox(
-                    height: size.height / 200,
+                ),
+                SizedBox(
+                  height: size.height / 200,
+                ),
+                Text(
+                  chatMap['message'],
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white,
                   ),
-                  Text(
-                    chatMap['message'],
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
-              )),
+                ),
+              ],
+            ),
+          ),
         );
       } else if (chatMap['type'] == "img") {
         return Container(

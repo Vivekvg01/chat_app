@@ -14,8 +14,8 @@ class AddMembersInGroup extends StatefulWidget {
 
 class _AddMembersInGroupState extends State<AddMembersInGroup> {
   final TextEditingController _search = TextEditingController();
-  FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   List<Map<String, dynamic>> membersList = [];
   bool isLoading = false;
   Map<String, dynamic>? userMap;
@@ -98,7 +98,8 @@ class _AddMembersInGroupState extends State<AddMembersInGroup> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Add Members"),
+        title: const Text("Add Members On New Group"),
+        elevation: 0,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -108,14 +109,14 @@ class _AddMembersInGroupState extends State<AddMembersInGroup> {
               child: ListView.builder(
                 itemCount: membersList.length,
                 shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
                   return ListTile(
                     onTap: () => onRemoveMembers(index),
-                    leading: Icon(Icons.account_circle),
+                    leading: const Icon(Icons.account_circle),
                     title: Text(membersList[index]['name']),
                     subtitle: Text(membersList[index]['email']),
-                    trailing: Icon(Icons.close),
+                    trailing: const Icon(Icons.close),
                   );
                 },
               ),
@@ -123,19 +124,29 @@ class _AddMembersInGroupState extends State<AddMembersInGroup> {
             SizedBox(
               height: size.height / 20,
             ),
+            //search text feild
             Container(
               height: size.height / 14,
               width: size.width,
               alignment: Alignment.center,
-              child: Container(
-                height: size.height / 14,
-                width: size.width / 1.15,
+              child: SizedBox(
+                height: 45,
                 child: TextField(
                   controller: _search,
                   decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.symmetric(),
                     hintText: "Search",
+                    prefixIcon: const Icon(
+                      Icons.search,
+                      color: Colors.grey,
+                    ),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(25),
+                      borderSide:
+                          BorderSide(width: 3, color: Colors.grey.shade300),
                     ),
                   ),
                 ),
@@ -149,27 +160,32 @@ class _AddMembersInGroupState extends State<AddMembersInGroup> {
                     height: size.height / 12,
                     width: size.height / 12,
                     alignment: Alignment.center,
-                    child: CircularProgressIndicator(),
+                    child: const CircularProgressIndicator(),
                   )
                 : ElevatedButton(
                     onPressed: onSearch,
-                    child: Text("Search"),
+                    child: const Text("Search"),
                   ),
             userMap != null
                 ? ListTile(
                     onTap: onResultTap,
-                    leading: Icon(Icons.account_box),
+                    leading: CircleAvatar(
+                      radius: 26,
+                      child: Image.network(
+                        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwHTZ8zi4vN4YAWw0jCcNGgfMsIN2zEPSF0vUhphE26QFXDHi3kKozZSMISp6hEKwPwvM&usqp=CAU',
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                     title: Text(userMap!['name']),
                     subtitle: Text(userMap!['email']),
-                    trailing: Icon(Icons.add),
                   )
-                : SizedBox(),
+                : const SizedBox(),
           ],
         ),
       ),
       floatingActionButton: membersList.length >= 2
           ? FloatingActionButton(
-              child: Icon(Icons.forward),
+              child: const Icon(Icons.forward),
               onPressed: () => Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (_) => CreateGroup(
@@ -178,7 +194,7 @@ class _AddMembersInGroupState extends State<AddMembersInGroup> {
                 ),
               ),
             )
-          : SizedBox(),
+          : const SizedBox(),
     );
   }
 }

@@ -105,7 +105,7 @@ class ChatRoom extends StatelessWidget {
           stream:
               _firestore.collection("users").doc(userMap['uid']).snapshots(),
           builder: (context, snapshot) {
-            print(snapshot.data!['status']);
+            //print(snapshot.data!['status']);
             if (snapshot.data != null) {
               return Column(
                 children: [
@@ -124,11 +124,11 @@ class ChatRoom extends StatelessWidget {
           },
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            sizedBoxHeight(5), 
-            SizedBox(
+      body: Column(
+        children: [
+          sizedBoxHeight(5),
+          Expanded( 
+            child: SizedBox(
               height: size.height / 1.25,
               width: size.width,
               child: StreamBuilder<QuerySnapshot>(
@@ -155,46 +155,54 @@ class ChatRoom extends StatelessWidget {
                 },
               ),
             ),
-            Container(
-              height: size.height / 10,
-              width: size.width,
-              alignment: Alignment.center,
-              child: Container(
-                height: size.height / 12,
-                width: size.width / 1.1,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      height: size.height / 17,
-                      width: size.width / 1.3,
+          ),
+          //send message
+          Container(
+            height: size.height / 10,
+            width: size.width,
+            alignment: Alignment.center,
+            child: SizedBox(
+              height: size.height / 12,
+              width: size.width / 1.1,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    height: size.height / 15,
+                    width: size.width / 1.4,
+                    decoration: BoxDecoration(
+                      color: Colors.grey,
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
                       child: TextField(
                         controller: _message,
                         decoration: InputDecoration(
-                            suffixIcon: IconButton(
-                              onPressed: () => getImage(),
-                              icon: const Icon(Icons.photo),
-                            ),
-                            hintText: "Send Message",
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            )),
+                          border: InputBorder.none,
+                          suffixIcon: IconButton(
+                            onPressed: () => getImage(),
+                            icon: const Icon(Icons.photo),
+                          ),
+                          hintText: "Type your message",
+                        ),
                       ),
                     ),
-                    SizedBox(
-                      width: 30,
-                      child: FloatingActionButton(
-                        elevation: 0,
-                        onPressed: onSendMessage,
-                        child: const Icon(Icons.send),
-                      ),
+                  ),
+                  sizedBoxWidth(7),
+                  SizedBox(
+                    height: 50,
+                    child: FloatingActionButton(
+                      elevation: 0,
+                      onPressed: onSendMessage,
+                      child: const Icon(Icons.send),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

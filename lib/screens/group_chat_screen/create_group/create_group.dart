@@ -24,7 +24,7 @@ class _CreateGroupState extends State<CreateGroup> {
       isLoading = true;
     });
 
-    String groupId = Uuid().v1();
+    String groupId = const Uuid().v1();
 
     await _firestore.collection('groups').doc(groupId).set({
       "members": widget.membersList,
@@ -51,7 +51,10 @@ class _CreateGroupState extends State<CreateGroup> {
     });
 
     Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (_) => HomeScreen()), (route) => false);
+        MaterialPageRoute(
+          builder: (_) => const HomeScreen(),
+        ),
+        (route) => false);
   }
 
   @override
@@ -60,14 +63,14 @@ class _CreateGroupState extends State<CreateGroup> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Group Name"),
+        title: const Text("Group Name"),
       ),
       body: isLoading
           ? Container(
               height: size.height,
               width: size.width,
               alignment: Alignment.center,
-              child: CircularProgressIndicator(),
+              child: const CircularProgressIndicator(),
             )
           : Column(
               children: [
@@ -78,7 +81,7 @@ class _CreateGroupState extends State<CreateGroup> {
                   height: size.height / 14,
                   width: size.width,
                   alignment: Alignment.center,
-                  child: Container(
+                  child: SizedBox(
                     height: size.height / 14,
                     width: size.width / 1.15,
                     child: TextField(
@@ -97,7 +100,7 @@ class _CreateGroupState extends State<CreateGroup> {
                 ),
                 ElevatedButton(
                   onPressed: createGroup,
-                  child: Text("Create Group"),
+                  child: const Text("Create Group"),
                 ),
               ],
             ),
